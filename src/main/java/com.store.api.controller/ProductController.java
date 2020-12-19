@@ -22,9 +22,8 @@ public class ProductController implements ProductService {
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Product addProduct(@RequestBody Product product){
         ProductDO productDO = getProductDO(product);
-        productDO = repository.save(productDO);
-        product.setId(productDO.getId());
-        return product;
+        ProductDO newProductDO = repository.save(productDO);
+        return getProduct(newProductDO);
     }
 
     @Override
