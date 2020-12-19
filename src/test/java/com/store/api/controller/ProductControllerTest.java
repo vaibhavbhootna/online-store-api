@@ -7,6 +7,7 @@ import com.store.api.model.Product;
 import com.store.api.persistence.ProductRepository;
 import com.store.api.persistence.model.ProductDO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +29,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
+/**
+ * Test ProductController request mappings
+ */
 @SpringBootTest(classes = OnlineStoreApplication.class, properties = "spring.profiles.active:test")
 @AutoConfigureMockMvc
 public class ProductControllerTest {
@@ -41,6 +45,9 @@ public class ProductControllerTest {
     @Mock
     private ProductRepository repository;
 
+    /**
+     * Mocking JPA repository using Mockito
+     */
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(ProductControllerTest.class);
@@ -55,6 +62,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("Test with wrong mapping to check the HTTP Status Code 404")
     public void testWrongMappings() throws Exception {
         Product product = createSampleProduct();
         String requestJson = new ObjectMapper().writeValueAsString(product);
@@ -68,6 +76,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("Testing URL mapping '/product/add'. API must save the product in DB.")
     public void testAddProduct_Success() throws Exception {
         Mockito.when(repository.save(Mockito.any())).thenReturn(createSampleProductDO());
         Product product = createSampleProduct();
@@ -86,6 +95,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("Test API '/product/add' only supports POST method")
     public void testAddProduct_NotSupportedMethods() throws Exception {
         List<MockHttpServletRequestBuilder> requests = Arrays.asList(
         get("/product/add"),
@@ -101,6 +111,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("Testing URL mapping '/product/list'. API must return the list of products present in DB.")
     public void testListProduct_Success() throws Exception {
         Mockito.when(repository.findAll()).thenReturn(Arrays.asList(createSampleProductDO()));
         MockHttpServletRequestBuilder request = get("/product/list");
@@ -117,6 +128,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("Test API '/product/list' only supports GET method")
     public void testListProduct_NotSupportedMethods() throws Exception {
         List<MockHttpServletRequestBuilder> requests = Arrays.asList(
                 post("/product/list"),

@@ -2,6 +2,7 @@ package com.store.api.persistence;
 
 import com.store.api.main.OnlineStoreApplication;
 import com.store.api.persistence.model.ProductDO;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +14,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test ProductRepository to ensure data fetch and save
+ */
 @SpringBootTest(classes = OnlineStoreApplication.class, properties = "spring.profiles.active:test")
 @AutoConfigureMockMvc
 public class ProductRepositoryTest {
@@ -21,6 +25,7 @@ public class ProductRepositoryTest {
     private ProductRepository repository;
 
     @Test
+    @DisplayName("Test save method of JPA Repository to save product in DB")
     public void testSave(){
         ProductDO productDO = createSampleProductDO();
         productDO.setCode("AppleWatch-SE-2020");
@@ -28,6 +33,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test findAll method of JPA Repository to fetch saved products in DB")
     public void testFindAll(){
         ProductDO productDO = createSampleProductDO();
         repository.save(productDO);
