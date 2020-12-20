@@ -28,7 +28,7 @@ public class ProductRepositoryTest {
     @DisplayName("Test save method of JPA Repository to save product in DB")
     public void testSave(){
         ProductDO productDO = createSampleProductDO();
-        productDO.setCode("AppleWatch-SE-2020");
+        productDO.setProductCode("AppleWatch-SE-2020");
         assertEquals(productDO, repository.save(productDO));
     }
 
@@ -43,8 +43,8 @@ public class ProductRepositoryTest {
 
     private ProductDO createSampleProductDO() {
         ProductDO product = new ProductDO();
-        product.setName("Apple Watch");
-        product.setCode("AppleWatch-6-2020");
+        product.setProductName("Apple Watch");
+        product.setProductCode("AppleWatch-6-2020");
         product.setDescription("Apple Watch is a wearable smartwatch that allows users to accomplish a variety of tasks,");
         product.setPrice(BigDecimal.valueOf(551));
         product.setCategories(Arrays.asList("Watch", "Gadget", "Wearable"));

@@ -7,17 +7,17 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "PRODUCT", uniqueConstraints={@UniqueConstraint(columnNames={"code"})})
+@Entity(name = "PRODUCTS")
+@Table(name = "PRODUCTS", uniqueConstraints={@UniqueConstraint(columnNames={"productCode"})})
 public class ProductDO {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    private Long productId;
     @Column(unique=true, nullable = false)
-    private String code;
+    private String productCode;
     @Column(nullable = false)
-    private String name;
+    private String productName;
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)

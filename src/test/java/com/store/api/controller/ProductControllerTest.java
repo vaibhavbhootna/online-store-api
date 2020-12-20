@@ -2,9 +2,9 @@ package com.store.api.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.store.api.impl.ProductServiceImpl;
 import com.store.api.main.OnlineStoreApplication;
 import com.store.api.model.Product;
-import com.store.api.persistence.ProductRepository;
 import com.store.api.persistence.model.ProductDO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +43,7 @@ public class ProductControllerTest {
     private ProductController productController;
 
     @Mock
-    private ProductRepository repository;
+    private ProductServiceImpl productService;
 
     /**
      * Mocking JPA repository using Mockito
@@ -76,9 +76,9 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("Testing URL mapping '/product/add'. API must save the product in DB.")
+    @DisplayName("Testing URL mapping '/product/add'.")
     public void testAddProduct_Success() throws Exception {
-        Mockito.when(repository.save(Mockito.any())).thenReturn(createSampleProductDO());
+        Mockito.when(productService.addProduct(Mockito.any())).thenReturn(createSampleProduct());
         Product product = createSampleProduct();
         String requestJson = new ObjectMapper().writeValueAsString(product);
         MockHttpServletRequestBuilder request = post("/product/add");
@@ -88,7 +88,6 @@ public class ProductControllerTest {
                 .andReturn();
 
         String actualResponse = result.getResponse().getContentAsString();
-        product.setId(1l);
         String expected = new ObjectMapper().writeValueAsString(product);
         assertEquals(expected, actualResponse);
         assertEquals(result.getResponse().getStatus(), 200);
@@ -113,15 +112,14 @@ public class ProductControllerTest {
     @Test
     @DisplayName("Testing URL mapping '/product/list'. API must return the list of products present in DB.")
     public void testListProduct_Success() throws Exception {
-        Mockito.when(repository.findAll()).thenReturn(Arrays.asList(createSampleProductDO()));
+        Product product = createSampleProduct();
+        Mockito.when(productService.listProducts()).thenReturn(Arrays.asList(product));
         MockHttpServletRequestBuilder request = get("/product/list");
         MvcResult result =this.mvc.perform(request
                 .headers(httpHeaders))
                 .andReturn();
 
         String actualResponse = result.getResponse().getContentAsString();
-        Product product = createSampleProduct();
-        product.setId(1l);
         String expected = new ObjectMapper().writeValueAsString(Arrays.asList(product));
         assertEquals(expected, actualResponse);
         assertEquals(result.getResponse().getStatus(), 200);
@@ -143,7 +141,6 @@ public class ProductControllerTest {
         }
     }
 
-
     private Product createSampleProduct() {
         Product product = new Product();
         product.setName("Apple Watch");
@@ -156,9 +153,9 @@ public class ProductControllerTest {
 
     private ProductDO createSampleProductDO() {
         ProductDO product = new ProductDO();
-        product.setId(1l);
-        product.setName("Apple Watch");
-        product.setCode("AppleWatch-6-2020");
+        product.setProductId(1l);
+        product.setProductName("Apple Watch");
+        product.setProductCode("AppleWatch-6-2020");
         product.setDescription("Apple Watch is a wearable smartwatch that allows users to accomplish a variety of tasks,");
         product.setPrice(BigDecimal.valueOf(551));
         product.setCategories(Arrays.asList("Watch", "Gadget", "Wearable"));
