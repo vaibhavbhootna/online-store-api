@@ -31,22 +31,28 @@ public class OrderServiceImpl implements OrderService {
         OrderDO orderDO = new OrderDO();
         Set<OrderItemDO> orderItemDOList = new HashSet<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
-        for (OrderItem item : order.getOrderItems()) {
-            Optional<ProductDO> productDO = productRepository.findById(item.getProductId());
-            if (productDO.isPresent()) {
-                OrderItemDO itemDO = new OrderItemDO();
-                itemDO.setProductDO(productDO.get());
-                itemDO.setUnitPrice(productDO.get().getPrice());
-                itemDO.setUnit(item.getUnit());
-                totalAmount = totalAmount.add(productDO.get().getPrice().multiply(BigDecimal.valueOf(item.getUnit())));
-                orderItemDOList.add(itemDO);
+        if(order.getOrderItems() != null) {
+            for (OrderItem item : order.getOrderItems()) {
+                Optional<ProductDO> productDO = productRepository.findById(item.getProductId());
+                if (productDO.isPresent()) {
+                    OrderItemDO itemDO = new OrderItemDO();
+                    itemDO.setProductDO(productDO.get());
+                    itemDO.setUnitPrice(productDO.get().getPrice());
+                    itemDO.setUnit(item.getUnit());
+                    totalAmount = totalAmount.add(productDO.get().getPrice().multiply(BigDecimal.valueOf(item.getUnit())));
+                    orderItemDOList.add(itemDO);
+                } else {
+                    throw new RuntimeException("Product not available");
+                }
             }
+            orderDO.setUserId(order.getUserId());
+            orderDO.setTotalAmount(totalAmount);
+            orderDO.setOrderItems(orderItemDOList);
+            orderDO.setStatus("SUBMITTED");
+            OrderDO createdOrder = orderRepository.save(orderDO);
+            return getOrder(createdOrder);
         }
-        orderDO.setUserId(order.getUserId());
-        orderDO.setTotalAmount(totalAmount);
-        orderDO.setOrderItems(orderItemDOList);
-        OrderDO createdOrder = orderRepository.save(orderDO);
-        return getOrder(createdOrder);
+        return null;
     }
 
     @Override

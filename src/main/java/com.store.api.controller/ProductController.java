@@ -10,18 +10,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-public class ProductController implements ProductService {
+public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    @Override
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
 
-    @Override
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> listProducts() {
         return productService.listProducts();

@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 public class OrderItemDO {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long orderItemId;
-    private Long orderId;
-    @OneToOne(targetEntity=OrderItemDO.class)
+    @ManyToOne(targetEntity=OrderDO.class)
+    private OrderDO orderDO;
+    @OneToOne(targetEntity=ProductDO.class)
     private ProductDO productDO;
     private Long unit;
     private BigDecimal unitPrice;

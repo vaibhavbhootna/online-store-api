@@ -21,7 +21,7 @@ public class ProductDO {
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> categories;
     @Column(nullable = false)
     private BigDecimal price;

@@ -5,10 +5,12 @@ import com.store.api.model.Product;
 import com.store.api.persistence.ProductRepository;
 import com.store.api.persistence.model.ProductDO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
