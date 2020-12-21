@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "a63a7731-f1ef-4ec9-b74a-253f73862d7c",
+		"name": "Online Store System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8081/product/add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Apple Watch\",\n    \"code\" : \"AppleWatch2020\",\n    \"price\" : 551.00,\n    \"description\": \"Apple Watch is a wearable smartwatch that allows users to accomplish a variety of tasks,\",\n    \"categories\": [\n        \"Watch\",\n        \"Gadget\",\n        \"Wearable\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/product/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"product",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/order/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\" : \"vaibhav\",\n\t\"orderItems\" : [{\n    \t\"productId\" : 1,\n    \t\"unit\" : 2\n\t}]\n    \n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/order/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/product/list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Apple Watch\",\n    \"description\": \"Apple Watch is a wearable smartwatch that allows users to accomplish a variety of tasks,\",\n    \"categories\": [\n        \"Watch\",\n        \"Gadget\",\n        \"Wearable\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/product/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"product",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/order/list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8081/order/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order",
+						"list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
