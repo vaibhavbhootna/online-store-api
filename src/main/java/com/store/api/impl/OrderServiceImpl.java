@@ -9,7 +9,7 @@ import com.store.api.persistence.model.OrderDO;
 import com.store.api.persistence.model.OrderItemDO;
 import com.store.api.persistence.model.ProductDO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
                     itemDO.setProductDO(productDO.get());
                     itemDO.setUnitPrice(productDO.get().getPrice());
                     itemDO.setUnit(item.getUnit());
-                    totalAmount = totalAmount.add(productDO.get().getPrice().multiply(BigDecimal.valueOf(item.getUnit())));
+                    totalAmount = calculateAmount(totalAmount, item, productDO);
                     orderItemDOList.add(itemDO);
                 } else {
                     throw new RuntimeException("Product not available");
@@ -52,7 +52,11 @@ public class OrderServiceImpl implements OrderService {
             OrderDO createdOrder = orderRepository.save(orderDO);
             return getOrder(createdOrder);
         }
-        return null;
+        throw new RuntimeException("Order Creation Failed");
+    }
+
+    private BigDecimal calculateAmount(BigDecimal totalAmount, OrderItem item, Optional<ProductDO> productDO) {
+        return totalAmount.add(productDO.get().getPrice().multiply(BigDecimal.valueOf(item.getUnit())));
     }
 
     @Override

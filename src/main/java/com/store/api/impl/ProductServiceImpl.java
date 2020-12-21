@@ -20,8 +20,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product addProduct(Product product) {
         ProductDO productDO = getProductDO(product);
-        ProductDO newProductDO = repository.save(productDO);
-        return getProduct(newProductDO);
+        try {
+            ProductDO newProductDO = repository.save(productDO);
+            return getProduct(newProductDO);
+        } catch (Exception exception){
+            throw new RuntimeException ("Error adding product");
+        }
     }
 
     @Override
